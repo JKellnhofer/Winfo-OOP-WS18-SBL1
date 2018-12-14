@@ -21,7 +21,7 @@ public class Facility extends Location{
 
     @Override
     public String toString(){
-        return String.format (" or rest%nA rest cost %f \\0x20ac and you will receive" +
+        return String.format (" or rest%nA rest cost %2.2f \u20ac and you will receive" +
                 " %d energy points", getCost(), getEnergyPoints());
     }
 }
