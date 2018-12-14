@@ -25,10 +25,6 @@ public class EasyGame {
         Location entrance = new Location("Entrance");
         Location parkingLot = new Location("Parking Lot");
 
-        // important locations
-        Location startLocation = rollerCoaster;
-        Location endLocation = parkingLot;
-
         // Create Paths
         rollerCoaster.createPath("up", restroom);
         restroom.createPath("left", bumperCar);
@@ -42,6 +38,10 @@ public class EasyGame {
         carousel.createPath("left", entrance);
         entrance.createPath("down", parkingLot);
 
+        // important locations
+        Location startLocation = rollerCoaster;
+        Location endLocation = parkingLot;
+
 
         //initializing player on start location
         Player player = new Player(startLocation);
@@ -51,10 +51,10 @@ public class EasyGame {
         String enteredOrder;
 
         //Intro text
-        System.out.println("You’re in a theme park, it’s getting dark." +
-                "&nYou want to go to your car." +
-                "&nOn the way there you want to have as much fun as possible" +
-                "&nBut you have only limited energy and money left.");
+        System.out.printf("You’re in a theme park, it’s getting dark." +
+                "%nYou want to go to your car." +
+                "%nOn the way there you want to have as much fun as possible" +
+                "%nBut you have only limited energy and money left.%n%n");
 
 
         //GameLoop as long as Game is not over (enough energy and not at end location)

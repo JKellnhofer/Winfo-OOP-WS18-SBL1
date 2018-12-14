@@ -9,8 +9,10 @@ import adventure.location.Facility;
 import adventure.location.FunRide;
 import adventure.location.Location;
 
+import java.util.Scanner;
+
 public class Game {
-    public static void main(String[] argv){
+    public static void main(String[] argv) {
         // Create Locations
         FunRide rollerCoaster = new FunRide("Roller Coaster", 2.5, 5);
         Facility restroom = new Facility("Restroom", 0.5, 1);
@@ -36,11 +38,82 @@ public class Game {
         carousel.createPath("left", entrance);
         entrance.createPath("down", parkingLot);
 
-        /*
-         * TODO
-         */
+        // important locations
+        Location startLocation = rollerCoaster;
+        Location endLocation = parkingLot;
+
+
+        //initializing player on start location
+        Player player = new Player(startLocation);
+
+        //initializing new Scanner for User Input
+        Scanner input = new Scanner(System.in);
+        String enteredOrder;
+
+        //Intro text
+        System.out.printf("You’re in a theme park, it’s getting dark." +
+                "%nYou want to go to your car." +
+                "%nOn the way there you want to have as much fun as possible" +
+                "%nBut you have only limited energy and money left.%n%n");
+
+
+        //GameLoop as long as Game is not over (enough energy and not at end location)
+        while (!outOfEnergy(player) && !playerAtEndLocation(player, endLocation)) {
+            System.out.println(player.toString());
+            System.out.print("> ");
+            enteredOrder = input.nextLine();
+
+            while (!isInputCorrect(player, enteredOrder)) { //checks if input is possible to fulfill and let new input if not
+
+
+                System.out.print("> ");
+                enteredOrder = input.nextLine();
+            }
+            if (isStayOrder(player)) {
+                player.stay();
+            }
+            else{
+                player.walk(enteredOrder);
+            }
+
+        }
+
+
+        if (playerAtEndLocation(player, endLocation)) {
+            System.out.printf("You are here now: %1$s &nCongratulations, you made it. You have collected %2$d fun points and have %3$2.2f \u20ac.",endLocation.getName(), player.getMoney(), player.getMoney());
+        } else {
+            System.out.printf("Game over. You collapse exhausted and the park inspector must carry you out of the park.%nYou lose all your fun points! You have %2.2f \u20ac.", player.getMoney());
+        }
 
 
     }
+    
+    private static boolean isStayOrder(Player player) {
+
+        return player.getCurrentLocation().getClass() == FunRide.class || player.getCurrentLocation().getClass() == Facility.class;
+
+    }
+
+
+    private static boolean isInputCorrect(Player player, String input) {
+        if (player.getCurrentLocation().getNeighboringLocation(input) == null) {
+            if (player.getCurrentLocation().getClass() == FunRide.class && input.equals("ride")) {
+                return true;
+            } else if (player.getCurrentLocation().getClass() == Facility.class && input.equals("rest")) {
+                return true;
+            } else return false;
+        }
+        return false;
+    }
+
+    private static boolean outOfEnergy(Player player) {
+        return player.getEnergy() < 0;
+    }
+
+    //returns true if player location equals end end location
+    private static boolean playerAtEndLocation(Player player, Location endLocation) {
+        return player.getCurrentLocation().equals(endLocation);
+    }
+
 
 }
