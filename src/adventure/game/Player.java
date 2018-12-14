@@ -42,7 +42,8 @@ public class Player {
     @Override
     // returns String with status
     public String toString() {
-        return String.format("%2$s%nYou have %1$d energy and %3$f c\u20ac 20ac You already earned %4$d fun points", getEnergy(), currentLocation.toString(), getMoney(), getFunPoints());
+
+        return String.format("%1$s%nYou have %2$d energy and %3$2.2f \u20ac. You already earned %4$d fun points", currentLocation.toString(), getEnergy(), getMoney(), getFunPoints());
     }
 
     // player walks to new location with direction
@@ -57,7 +58,7 @@ public class Player {
 
 
     public void stay() {
-        if (currentLocation.getClass() == FunRide.class) { //checks if location is FunRide/Facility
+        if (isFunRide(currentLocation)) { //checks if location is FunRide/Facility
 
             double cost = ((FunRide) currentLocation).getCost();
             if (money - cost >= 0) { // checks if player has enough money
@@ -66,13 +67,30 @@ public class Player {
                 energy -= 5; //every funRide removes 5 energy Points
             }
 
-        } else if (currentLocation.getClass() == Facility.class) {
+        } else if (isFacility(currentLocation)) {
             double cost = ((Facility) currentLocation).getCost();
             if (money - cost >= 0) { // checks if player has enough money
                 money -= cost;
                 energy += ((Facility) currentLocation).getEnergyPoints();
             }
         }
+
+
+    }
+
+    //returns true if location's class is FunRide
+    private boolean isFunRide(Location location) {
+        return location.getClass() == FunRide.class;
+    }
+
+    //returns true if location's class is Facility
+    private boolean isFacility(Location location) {
+        return location.getClass() != FunRide.class;
+    }
+
+    //returns true if location's class is neither Facility nor FunRide
+    private boolean isOnlyLocation(Location location) {
+        return !isFunRide(location) && !isFacility(location);
 
 
     }
@@ -85,3 +103,4 @@ public class Player {
 
 
 }
+
