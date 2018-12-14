@@ -38,7 +38,7 @@ public class Location {
 
     @Override                   //Overriding toString method in Object class
     public String toString() {
-        String s = name + ". You can go: ";
+        String s = "You are here: " + name + ". You can go: ";
         if (leftLocation != null) {
             s += "left ";
         }
