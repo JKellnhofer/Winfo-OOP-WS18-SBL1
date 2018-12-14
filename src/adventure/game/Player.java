@@ -39,6 +39,7 @@ public class Player {
         return currentLocation;
     }
 
+    @Override
     // returns String with status
     public String toString() {
         return String.format("%2$s%nYou have %1$d energy and &3$f \\0x20ac. You already earned %4$d fun points", getEnergy(), currentLocation.toString(), getMoney(), getFunPoints());
@@ -47,7 +48,7 @@ public class Player {
     // player walks to new location with direction
     // sets new location with direction + player loses 10 energy points
     public void walk(String direction) {
-        currentLocation = currentLocation.getNeighboringLoccation(direction);
+        currentLocation = currentLocation.getNeighboringLocation(direction);
         energy -= 10;
 
     }

@@ -9,6 +9,8 @@ package adventure.game;
 
 import adventure.location.Location;
 
+import java.util.Scanner;
+
 public class EasyGame {
     public static void main(String[] argv) {
         // Create Locations
@@ -23,6 +25,10 @@ public class EasyGame {
         Location entrance = new Location("Entrance");
         Location parkingLot = new Location("Parking Lot");
 
+        // important locations
+        Location startLocation = rollerCoaster;
+        Location endLocation = parkingLot;
+
         // Create Paths
         rollerCoaster.createPath("up", restroom);
         restroom.createPath("left", bumperCar);
@@ -36,8 +42,13 @@ public class EasyGame {
         carousel.createPath("left", entrance);
         entrance.createPath("down", parkingLot);
 
+
         //initializing player on start location
-        Player player = new Player(rollerCoaster);
+        Player player = new Player(startLocation);
+
+        //initializing new Scanner for User Input
+        Scanner input = new Scanner(System.in);
+        String enteredOrder;
 
         //Intro text
         System.out.println("You’re in a theme park, it’s getting dark." +
@@ -46,23 +57,40 @@ public class EasyGame {
                 "&nBut you have only limited energy and money left.");
 
 
-        //GameLoop as long as Game is not over (enough energy and not at parking lot
-        while (!isGameOver(player) && !playerAtEndLocation(player,parkingLot)) {
+        //GameLoop as long as Game is not over (enough energy and not at end location)
+        while (!outOfEnergy(player) && !playerAtEndLocation(player, endLocation)) {
             System.out.println(player.toString());
-        }
-        if (isGameOver(player)) {
+            System.out.print("> ");
+            enteredOrder = input.nextLine();
+            while ((player.getCurrentLocation().getNeighboringLocation(enteredOrder) == null)) {
 
+                System.out.print("> ");
+                enteredOrder = input.nextLine();
+            }
+            player.walk(enteredOrder);
+
+        }
+
+
+        if (playerAtEndLocation(player, endLocation)) {
+            System.out.print("You are here now: " + endLocation.getName() +
+                    "&nCongratulations, you made it. You have collected " +
+                    player.getFunPoints() + " fun points and have " +
+                    player.getMoney() + " \0x20ac.");
+        } else {
+            System.out.println("Game over. You collapse exhausted and the park inspector must carry you out of the park. " +
+                    "%nYou lose all your fun points! You have " + player.getMoney() + " \\0x20ac.");
         }
 
 
     }
 
-    private static boolean isGameOver(Player player) {
-        return player.getEnergy() >= 0;
+    private static boolean outOfEnergy(Player player) {
+        return player.getEnergy() < 0;
     }
 
     //returns true if player location equals end end location
-    private static boolean  playerAtEndLocation(Player player, Location endLocation){
+    private static boolean playerAtEndLocation(Player player, Location endLocation) {
         return player.getCurrentLocation().equals(endLocation);
     }
 }
