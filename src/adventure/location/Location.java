@@ -8,7 +8,7 @@ public class Location {
     private Location upLocation;
     private Location downLocation;
 
-    public Location (String name){      //constructor initialize variables
+    public Location(String name) {      //constructor initialize variables
         this.name = name;
         leftLocation = null;
         rightLocation = null;
@@ -20,25 +20,29 @@ public class Location {
         return name;
     }
 
-    public Location getNeighboringLoccation (String direction){
-        switch (direction){                         //getting a direction, and returning the
-            case "left": return leftLocation;       //location in that direction
-            case "right": return rightLocation;
-            case "up": return upLocation;
-            case "down": return downLocation;
+    public Location getNeighboringLocation(String direction) {
+        switch (direction) {                         //getting a direction, and returning the
+            case "left":
+                return leftLocation;       //location in that direction
+            case "right":
+                return rightLocation;
+            case "up":
+                return upLocation;
+            case "down":
+                return downLocation;
         }
         return null;
     }
 
     @Override                   //Overriding toString method in Object class
-    public String toString(){
+    public String toString() {
         return getName() + ". You can go: " + leftLocation +
-        " " + rightLocation + " " + upLocation + " " + downLocation;
+                " " + rightLocation + " " + upLocation + " " + downLocation;
 
     }
 
     @Override                   //Overriding equals method in Object class
-    public boolean equals (Object obj){
+    public boolean equals(Object obj) {
 
         if (obj == null)
             return false;
@@ -54,7 +58,28 @@ public class Location {
 
     }
 
-    public void createPath (String direction, Location location){
+    public void createPath(String direction, Location location) {
+        switch (direction) {
+            case "up":
+                this.upLocation = location;
+                location.downLocation = this;
+                break;
+            case "down":
+                this.downLocation = location;
+                location.upLocation = this;
+                break;
+
+            case "left":
+                this.leftLocation = location;
+                location.rightLocation = this;
+                break;
+
+            case "right":
+                this.rightLocation = location;
+                location.leftLocation = this;
+                break;
+
+        }
 
     }
 }
