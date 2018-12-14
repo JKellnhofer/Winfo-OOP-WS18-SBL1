@@ -22,7 +22,7 @@ public class FunRide extends Location{
 
     @Override
     public String toString(){
-        return String.format (" or ride%nA ride cost %f \\0x20ac and you will receive" +
+        return String.format (super.toString() + "or ride%nA ride cost %2.2f \u20ac and you will receive" +
                 " %d fun points", getCost(), getFunPoints());
 
     }
