@@ -42,7 +42,7 @@ public class Player {
     @Override
     // returns String with status
     public String toString() {
-        return String.format("%2$s%nYou have %1$d energy and &3$f \\0x20ac. You already earned %4$d fun points", getEnergy(), currentLocation.toString(), getMoney(), getFunPoints());
+        return String.format("%2$s%nYou have %1$d energy and %3$f c\u20ac 20ac You already earned %4$d fun points", getEnergy(), currentLocation.toString(), getMoney(), getFunPoints());
     }
 
     // player walks to new location with direction

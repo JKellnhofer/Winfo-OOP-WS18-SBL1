@@ -1,5 +1,7 @@
 package adventure.location;
 
+import java.util.Locale;
+
 public class Location {
 
     private String name;                    //declaring variables
@@ -36,8 +38,20 @@ public class Location {
 
     @Override                   //Overriding toString method in Object class
     public String toString() {
-        return getName() + ". You can go: " + leftLocation +
-                " " + rightLocation + " " + upLocation + " " + downLocation;
+        String s = name + ". You can go: ";
+        if (leftLocation != null) {
+            s += "left ";
+        }
+        if (rightLocation != null) {
+            s += "right ";
+        }
+        if (upLocation != null) {
+            s += "up ";
+        }
+        if (downLocation != null) {
+            s += "down ";
+        }
+        return s;
 
     }
 
@@ -59,27 +73,30 @@ public class Location {
     }
 
     public void createPath(String direction, Location location) {
+        Location thisLocation = new Location(this.name);
+        Location connectedLocation = new Location(location.name);
         switch (direction) {
             case "up":
-                this.upLocation = location;
-                location.downLocation = this;
+                this.upLocation = connectedLocation;
+                location.downLocation = thisLocation;
                 break;
             case "down":
-                this.downLocation = location;
-                location.upLocation = this;
+                this.downLocation = connectedLocation;
+                location.upLocation = thisLocation;
                 break;
 
             case "left":
-                this.leftLocation = location;
-                location.rightLocation = this;
+                this.leftLocation = connectedLocation;
+                location.rightLocation = thisLocation;
                 break;
 
             case "right":
-                this.rightLocation = location;
-                location.leftLocation = this;
+                this.rightLocation = connectedLocation;
+                location.leftLocation = thisLocation;
                 break;
 
         }
+
 
     }
 }
